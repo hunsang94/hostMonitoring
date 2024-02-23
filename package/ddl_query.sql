@@ -6,7 +6,7 @@
 -- --------------------------------------------------------
 
 -- network 데이터베이스 구조 내보내기
-CREATE DATABASE IF NOT EXISTS `network`
+CREATE DATABASE IF NOT EXISTS `network`;
 USE `network`;
 
 -- 테이블 network.event 구조 내보내기

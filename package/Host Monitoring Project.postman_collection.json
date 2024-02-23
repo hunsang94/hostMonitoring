@@ -1,476 +1,388 @@
 {
-	"info": {
-		"_postman_id": "b4788916-c4ee-4b5a-a40c-00b9b0f55ec3",
-		"name": "Host Monitoring Project",
-		"description": "A global variable needs to be added.\n\n| variable | value |\n| --- | --- |\n| path | localhost:8080 |\n| accessToken | null |\n| refreshToken | null |\n\n로그인 API를 호출하면 global의 토큰 값이 Tests에 의해 설정됩니다. 이후 다른 API 호출 시 global에 등록된 토큰을 헤더에 적용하여 API를 요청하게 됩니다.\n\nWhen you call the login API, the global Token value is set by Tests. Afterwards, when calling another API, the token registered globally is applied to the header to request the API.",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "8175889"
-	},
-	"item": [
-		{
-			"name": "Login",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"login\", function () {",
-							"    var jsonData = pm.response.json();",
-							"    ",
-							"    pm.globals.set(\"accessToken\", jsonData.accessToken);",
-							"    pm.globals.set(\"refreshToken\", jsonData.refreshToken);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "",
-						"value": "",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "\n\t{\n\t\t\"userId\": \"admin\",\n\t\t\"password\": \"1234\"\n\t}"
-				},
-				"url": {
-					"raw": "{{path}}/api/v1/auth/login",
-					"host": [
-						"{{path}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"auth",
-						"login"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Logout",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "X-Authorization",
-						"value": "Bearer {{accessToken}}",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "{{path}}/api/v1/auth/logout",
-					"host": [
-						"{{path}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"auth",
-						"logout"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "AccessToken Renewal",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"login\", function () {",
-							"    var jsonData = pm.response.json();",
-							"    ",
-							"    pm.globals.set(\"accessToken\", jsonData.accessToken);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "",
-						"value": "",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "\n\t{\n\t\t\"refreshToken\": \"{{refreshToken}}\"\n\t}"
-				},
-				"url": {
-					"raw": "{{path}}/api/v1/auth/renewal",
-					"host": [
-						"{{path}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"auth",
-						"renewal"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Audit List",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "X-Authorization",
-						"value": "Bearer {{accessToken}}",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "{{path}}/api/v1/admin/audits",
-					"host": [
-						"{{path}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"admin",
-						"audits"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Host List",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "X-Authorization",
-						"value": "Bearer {{accessToken}}",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "{{path}}/api/v1/hosts",
-					"host": [
-						"{{path}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"hosts"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Host",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "X-Authorization",
-						"value": "Bearer {{accessToken}}",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "{{path}}/api/v1/host/192.168.0.1/domain",
-					"host": [
-						"{{path}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"host",
-						"192.168.0.1",
-						"domain"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Registe Host",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "X-Authorization",
-						"value": "Bearer {{accessToken}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "\n{\n    \"ip\": \"192.168.0.1\",\n    \"name\": \"domain\"\n}\n"
-				},
-				"url": {
-					"raw": "{{path}}/api/v1/host",
-					"host": [
-						"{{path}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"host"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Update Host",
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "X-Authorization",
-						"value": "Bearer {{accessToken}}",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"ip\": \"192.168.0.1\",\n    \"name\": \"domain\"\n}"
-				},
-				"url": {
-					"raw": "{{path}}/api/v1/host",
-					"host": [
-						"{{path}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"host"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Delete Host",
-			"request": {
-				"method": "DELETE",
-				"header": [
-					{
-						"key": "X-Authorization",
-						"value": "Bearer {{accessToken}}",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "{{path}}/api/v1/host/192.168.0.1/domain",
-					"host": [
-						"{{path}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"host",
-						"192.168.0.1",
-						"domain"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Crruent Host-Status",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "X-Authorization",
-						"value": "Bearer {{accessToken}}",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "{{path}}/api/v1/status/current/192.168.0.1/domain",
-					"host": [
-						"{{path}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"status",
-						"current",
-						"192.168.0.1",
-						"domain"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Host Monitoring",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "X-Authorization",
-						"value": "Bearer {{accessToken}}",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "{{path}}/api/v1/monitoring/hosts?ip=192.168.0.1&name=domain",
-					"host": [
-						"{{path}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"monitoring",
-						"hosts"
-					],
-					"query": [
-						{
-							"key": "ip",
-							"value": "192.168.0.1"
-						},
-						{
-							"key": "name",
-							"value": "domain"
-						}
-					]
-				}
-			},
-			"response": []
-		}
-	],
-	"auth": {
-		"type": "bearer",
-		"bearer": [
-			{
-				"key": "token",
-				"value": "{{accessToken}}",
-				"type": "string"
-			}
-		]
-	},
-	"event": [
-		{
-			"listen": "prerequest",
-			"script": {
-				"type": "text/javascript",
-				"exec": [
-					""
-				]
-			}
-		},
-		{
-			"listen": "test",
-			"script": {
-				"type": "text/javascript",
-				"exec": [
-					""
-				]
-			}
-		}
-	]
+  "info": {
+    "_postman_id": "b4788916-c4ee-4b5a-a40c-00b9b0f55ec3",
+    "name": "Host Monitoring Project",
+    "description": "A global variable needs to be added.\n\n| variable | value |\n| --- | --- |\n| path | localhost:8080 |\n| accessToken | null |\n| refreshToken | null |\n\n로그인 API를 호출하면 global의 토큰 값이 Tests에 의해 설정됩니다. 이후 다른 API 호출 시 global에 등록된 토큰을 헤더에 적용하여 API를 요청하게 됩니다.\n\nWhen you call the login API, the global Token value is set by Tests. Afterwards, when calling another API, the token registered globally is applied to the header to request the API.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "8175889"
+  },
+  "item": [
+    {
+      "name": "Login",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"login\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    ",
+              "    pm.globals.set(\"accessToken\", jsonData.accessToken);",
+              "    pm.globals.set(\"refreshToken\", jsonData.refreshToken);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "",
+            "value": "",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "\n\t{\n\t\t\"userId\": \"admin\",\n\t\t\"password\": \"1234\"\n\t}"
+        },
+        "url": {
+          "raw": "{{path}}/api/v1/auth/login",
+          "host": ["{{path}}"],
+          "path": ["api", "v1", "auth", "login"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Logout",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [""],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "X-Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{path}}/api/v1/auth/logout",
+          "host": ["{{path}}"],
+          "path": ["api", "v1", "auth", "logout"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "AccessToken Renewal",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"login\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    ",
+              "    pm.globals.set(\"accessToken\", jsonData.accessToken);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "",
+            "value": "",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "\n\t{\n\t\t\"refreshToken\": \"{{refreshToken}}\"\n\t}"
+        },
+        "url": {
+          "raw": "{{path}}/api/v1/auth/renewal",
+          "host": ["{{path}}"],
+          "path": ["api", "v1", "auth", "renewal"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Audit List",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{path}}/api/v1/admin/audits",
+          "host": ["{{path}}"],
+          "path": ["api", "v1", "admin", "audits"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Host List",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{path}}/api/v1/hosts",
+          "host": ["{{path}}"],
+          "path": ["api", "v1", "hosts"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Host",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{path}}/api/v1/host/192.168.0.1/domain",
+          "host": ["{{path}}"],
+          "path": ["api", "v1", "host", "192.168.0.1", "domain"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Regist Host",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [""],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [""],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "X-Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "\n{\n    \"ip\": \"192.168.0.1\",\n    \"name\": \"domain\"\n}\n"
+        },
+        "url": {
+          "raw": "{{path}}/api/v1/host",
+          "host": ["{{path}}"],
+          "path": ["api", "v1", "host"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Host",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "X-Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"ip\": \"192.168.0.1\",\n    \"name\": \"domain\"\n}"
+        },
+        "url": {
+          "raw": "{{path}}/api/v1/host",
+          "host": ["{{path}}"],
+          "path": ["api", "v1", "host"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Host",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "X-Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{path}}/api/v1/host/192.168.0.1/domain",
+          "host": ["{{path}}"],
+          "path": ["api", "v1", "host", "192.168.0.1", "domain"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Crruent Host-Status",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{path}}/api/v1/status/current/192.168.0.1/domain",
+          "host": ["{{path}}"],
+          "path": ["api", "v1", "status", "current", "192.168.0.1", "domain"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Host Monitoring",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{path}}/api/v1/monitoring/hosts?ip=192.168.0.1&name=domain",
+          "host": ["{{path}}"],
+          "path": ["api", "v1", "monitoring", "hosts"],
+          "query": [
+            {
+              "key": "ip",
+              "value": "192.168.0.1"
+            },
+            {
+              "key": "name",
+              "value": "domain"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{accessToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ]
 }

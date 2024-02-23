@@ -49,7 +49,7 @@ public class HostService {
         throw new EntityNotFoundException("No host found on that IP.");
     }
 
-    public HostResponse registeHost(HostRequest hostReq) {
+    public HostResponse registHost(HostRequest hostReq) {
         String msg = "";
         HostPk hostPk = new HostPk();
         Host host = new Host();
@@ -105,7 +105,6 @@ public class HostService {
         hostStatusMap.removeHostStatus(hostpk);
     }
 
-    // 이거 수정하기
     public String getCurrentHostStatus(String ip, String name) {
         String result = "";
         String lastAliveTime = "";

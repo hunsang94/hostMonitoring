@@ -47,8 +47,8 @@ public class HostController {
     }
 
     @PostMapping("/host")
-    public ResponseEntity<HostResponse> registeHost(@RequestBody HostRequest request) {
-        return ResponseEntity.ok(hostService.registeHost(request));
+    public ResponseEntity<HostResponse> registHost(@RequestBody HostRequest request) {
+        return ResponseEntity.ok(hostService.registHost(request));
     }
 
     @PutMapping("/host")
@@ -70,7 +70,7 @@ public class HostController {
     @GetMapping("/monitoring/hosts")
     public ResponseEntity<List<HostStatus>> getMonitoring(@RequestParam(required = false) String ip,
             @RequestParam(required = false) String name) {
-        if (ip == null && name == null) {
+        if (ip == null || name == null) {
             return ResponseEntity.ok(hostService.getMonitoringAll());
         } else {
             return ResponseEntity.ok(hostService.getMonitoring(ip, name));
